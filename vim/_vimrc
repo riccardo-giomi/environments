@@ -1,0 +1,116 @@
+" Start with pathogen immediately, to access plugins
+execute pathogen#infect()
+" ???
+packadd! matchit
+
+" Theme
+set laststatus=2                " Always show status line
+
+" Basic behaviour
+set nocompatible                " no compatibility with legacy vi
+set encoding=utf-8
+set showcmd                     " display incomplete commands
+set wildmode=longest,list,full  " completition behaviour
+set mouse=a                     " Use mouse
+
+" Buffers
+set hidden                      " Closed buffers are just hidden
+set splitright                  " new vsplit goes to the right
+set splitbelow                  " new split goes below
+
+" Saving
+set nobackup                    " Self-explanatory
+set noswapfile                  " Self-explanatory
+
+" TAB and indentation behaviours
+set tabstop=2                   " Number of spaces that a <Tab> in the file counts for.
+set shiftwidth=2                " Number of spaces to use for each step of (auto)indent.
+set expandtab                   " Use the appropriate number of spaces to insert a <Tab>.
+                                " Spaces are used in indents with the '>' and '<' commands
+                                " and when 'autoindent' is on. To insert a real tab when
+                                " 'expandtab' is on, use CTRL-V <Tab>.
+
+" Display and edge behaviour
+set number                      " Show line numbers
+set nowrap                      " don't wrap lines
+set backspace=indent,eol,start  " backspace through everything in insert mode
+" set cursorline                  " Highlight the line where the cursor is
+" set cursorcolumn                " Highlight the column where the cursor is
+set scrolloff=5                 " Always keep 5 lines above and below the cursor
+" Syntax higlight & plugins
+filetype plugin indent on       " load file type plugins + indentation
+syntax enable
+
+" Searching
+set incsearch                   " Match search results while typing
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
+set hlsearch                    " Highlight search matches
+
+""""""""""""
+" MAPPINGS "
+""""""""""""
+
+" No F1 please
+map <F1> <nop>
+
+" :W and :Q => :w and :q
+command W w
+command Q q
+command WQ wq
+
+" Space in normal mode inserts spaces
+" NO! Conflicts with folding!
+"nnoremap <Space> i<Space><Esc> 
+" Fast keys for switching between tabs
+noremap <C-right> :tabnext<CR> 
+noremap <C-left>  :tabprevious<CR>
+
+" Faster way to get current directory
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+ 
+" Clear search highlight when redrawing the screen;
+" :<C-u> avoids the warning you'd get if you pressed a number
+" right before using this.
+nnoremap <silent> <C-l> :<C-u>nohl<CR><C-l>
+
+"""""""""""
+" PLUGINS "
+"""""""""""
+
+"""""""""""""""
+" vim-surround
+"
+let g:surround_91 = "[\r]" " No spaces when surrounding with '[]'
+let g:surround_40 = "(\r)" " No spaces when surrounding with '()'
+
+""""""""""""""""""""
+" textobj-rubyblock
+"
+" Enable matchit, required by the plugin
+"runtime macros/matchit.vim
+
+"""""""""""
+" Fugitive
+"
+" Show git status on statusline
+set statusline=%<%{fugitive#statusline()}%F\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+""""""""
+" Emmet
+"
+
+let g:user_emmet_settings = {
+\  'indentation' : '  '
+\}
+
+"""""""
+" ctrlp
+
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
+
+"""""""""""""""""""""""""""""""""""""
+" Allow project-specific .vimrc files
+
+set exrc
+set secure
